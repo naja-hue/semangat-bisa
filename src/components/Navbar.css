@@ -1,0 +1,118 @@
+/* Navbar.css */
+.navbar {
+    background-color: #ff66b2; /* Warna pink pastel */
+    padding: 0.8rem 2rem; /* Padding navbar agar pas */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px; /* Tinggi tetap navbar */
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .logo {
+    font-size: 2rem;
+    font-family: 'Dancing Script', cursive;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem; /* Menambahkan jarak antar link */
+    align-items: center; /* Pastikan item di navbar sejajar secara vertikal */
+  }
+  
+  .nav-links li {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .nav-links a,
+  .nav-links button {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem; /* Menambahkan padding pada link agar ukuran konsisten */
+    border-radius: 20px; /* Menambahkan border radius agar tombol lebih rapi */
+  }
+  
+  .nav-links a:hover,
+  .nav-links button:hover {
+    color: #ff3399;
+    transform: scale(1.05);
+  }
+  
+  /* Tombol logout dan login */
+  .logout-btn,
+  .login-btn {
+    background-color: white;
+    color: #ff66b2;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    height: 40px; /* Menetapkan tinggi tombol agar konsisten */
+  }
+  
+  .logout-btn:hover,
+  .login-btn:hover {
+    background-color: #ff3399;
+    color: white;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    display: inline-block;
+    height: 40px; /* Mengatur tinggi link dan tombol navbar */
+    line-height: 40px; /* Menjaga teks tetap terpusat secara vertikal */
+  }
+  
+  /* Responsif untuk tampilan kecil (mobile) */
+  @media (max-width: 768px) {
+    .navbar-container {
+      flex-direction: column; /* Menyusun elemen navbar secara vertikal */
+      align-items: flex-start;
+    }
+  
+    .nav-links {
+      flex-direction: column;
+      margin-top: 1rem;
+    }
+  
+    .nav-links li {
+      margin: 0.5rem 0;
+    }
+  
+    /* Navbar menjadi sticky setelah scroll */
+    .navbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+  

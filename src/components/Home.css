@@ -1,0 +1,125 @@
+/* Latar belakang halaman dengan pastel gradient */
+.home-container {
+    padding-top: 70px; /* Memberikan ruang untuk navbar yang fixed */
+    background: #f1c0d8; /* Gradient pastel pink dengan sentuhan krem */
+    color: white; /* Warna teks putih untuk kontras */
+  }
+  
+  /* Gaya untuk welcome-message */
+  .welcome-message {
+    font-size: 2.5rem;
+    color: #ff1493; /* Warna pink pastel lembut untuk teks utama */
+    text-align: center;
+    margin-top: 50px;
+    font-family: sans-serif;
+    font-weight: 900;
+  }
+  
+  /* Gaya untuk intro-text */
+  .intro-text {
+    font-size: 1.2rem;
+    color: #ff66b2; /* Warna krem yang lembut */
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-style: italic; /* Agar lebih berkelas */
+  }
+  
+  /* Menyusun produk dalam grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Menurunkan ukuran kartu */
+    gap: 15px; /* Menurunkan jarak antar kartu */
+    padding: 15px; /* Menurunkan padding grid */
+    margin-top: 20px;
+}
+
+/* Menata kartu produk */
+.product-card {
+    background-color: #ffe4e1; /* Warna pink pastel dengan transparansi */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    padding: 15px; /* Mengurangi padding untuk kartu lebih kecil */
+    transition: transform 0.3s ease; /* Efek transisi untuk zoom */
+    height: auto; /* Menyesuaikan tinggi dengan konten */
+}
+
+/* Menata gambar produk agar tidak terpotong */
+.product-image {
+    width: 100%; /* Lebar 100% agar sesuai dengan lebar kartu */
+    height: 150px; /* Mengurangi tinggi gambar untuk ukuran kartu lebih kecil */
+    object-fit: contain; /* Menjaga proporsi gambar */
+    border-radius: 5px;
+    transition: transform 0.3s ease; /* Efek transisi pada gambar */
+}
+
+/* Memastikan gambar tidak lebih besar dari ukuran yang ditentukan */
+.product-image {
+    max-height: 150px; /* Menjaga tinggi gambar agar tidak melebihi 150px */
+}
+
+.product-name {
+    font-size: 1rem; /* Menurunkan ukuran font nama produk */
+    color: #ff80bf; /* Warna pink pastel lembut */
+    margin: 8px 0;
+    font-weight: bold; /* Memberikan efek penekanan pada nama produk */
+    font-family: Arial;
+}
+
+.product-price {
+    font-size: 1rem; /* Menurunkan ukuran font harga */
+    color: #333;
+    font-weight: bold; /* Memberikan efek penekanan pada harga */
+    margin-bottom: 10px; /* Menambah jarak bawah agar tidak terlalu rapat */
+    font-family: arial;
+}
+
+
+/* Responsif untuk ukuran layar kecil */
+@media (max-width: 768px) {
+    .product-name {
+        font-size: 0.9rem; /* Menurunkan ukuran font pada layar kecil */
+    }
+
+    .product-price {
+        font-size: 0.9rem; /* Menurunkan ukuran font harga pada layar kecil */
+    }
+
+    .product-card {
+        padding: 10px; /* Mengurangi padding pada layar kecil */
+    }
+
+    .product-image {
+        height: 120px; /* Mengurangi tinggi gambar pada layar kecil */
+    }
+
+    .add-product-btn {
+        width: 45px; /* Mengurangi ukuran tombol pada layar kecil */
+        height: 45px; /* Mengurangi ukuran tombol pada layar kecil */
+    }
+}
+  
+  .buy {
+    padding: 12px 20px; /* Padding yang lebih besar untuk tombol */
+    font-size: 16px; /* Ukuran font lebih besar */
+    font-weight: bold; /* Font tebal agar lebih mencolok */
+    background-color: #ff66b2; /* Warna latar belakang pink lembut */
+    color: white; /* Warna teks putih */
+    border: 2px solid #ff3385; /* Border pink lebih gelap */
+    cursor: pointer; /* Menambahkan pointer saat hover */
+    border-radius: 8px; /* Sudut tombol melengkung */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transisi halus saat hover dan klik */
+  }
+  
+  .buy:hover {
+    background-color: #ff3385; /* Warna pink lebih gelap saat hover */
+    transform: scale(1.05); /* Tombol sedikit membesar saat hover */
+  }
+  
+  .buy:active {
+    background-color: #ff1a6b; /* Warna pink lebih gelap saat tombol diklik */
+    transform: scale(0.98); /* Tombol sedikit mengecil saat ditekan */
+  }
+  

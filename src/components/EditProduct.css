@@ -1,0 +1,79 @@
+/* Container utama untuk halaman edit produk */
+.edit-product-container {
+    background-color: #ffe6f1; /* Warna background pink pastel */
+    padding: 2rem; /* Padding lebih besar agar form tidak terlalu sempit */
+    border-radius: 15px;
+    max-width: 500px; /* Lebar maksimum form */
+    margin: 2rem auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 150px; /* Memberikan jarak dari navbar */
+}
+
+/* Judul halaman */
+.edit-product-container h2 {
+    font-family: 'Dancing Script', cursive; /* Font estetik */
+    color: #ff66b2; /* Warna pink cerah */
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.8rem; /* Ukuran font lebih kecil */
+}
+
+/* Form styling */
+.edit-product-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Mengurangi jarak antar elemen untuk lebih rapat */
+}
+
+/* Label styling */
+.edit-product-container label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #ff3399; /* Warna pink lebih gelap */
+    margin-bottom: 0.5rem; /* Memberikan jarak antara label dan input */
+}
+
+/* Input styling */
+.edit-product-container input {
+    padding: 0.8rem; /* Padding yang lebih nyaman */
+    border: 2px solid #ff66b2;
+    border-radius: 8px; /* Sudut lebih membulat */
+    font-size: 1rem; /* Ukuran font lebih besar dan nyaman dibaca */
+    color: #333;
+    transition: border 0.3s ease;
+    width: 100%; /* Membuat input mengisi lebar kontainer */
+    box-sizing: border-box; /* Agar padding tidak melebihi lebar yang diinginkan */
+}
+
+/* Input focus effect */
+.edit-product-container input:focus {
+    border-color: #ff3399; /* Warna border berubah saat fokus */
+    outline: none;
+}
+
+/* Tombol submit styling */
+.edit-product-container button {
+    padding: 0.6rem 1.5rem; /* Padding lebih kecil agar tombol lebih proporsional */
+    background-color: #ff66b2; /* Pink cerah */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem; /* Ukuran font lebih kecil */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    margin-top: 1rem;
+    width: 100%; /* Tombol mengisi lebar kontainer */
+    max-width: 400px; /* Lebar tombol lebih terkontrol */
+    align-self: center; /* Menjaga tombol tetap terpusat */
+}
+
+/* Hover efek pada tombol */
+.edit-product-container button:hover {
+    background-color: #ff3399; /* Warna pink gelap saat hover */
+}
+
+/* Efek saat tombol ditekan */
+.edit-product-container button:active {
+    background-color: #ff1a75; /* Warna lebih gelap saat klik */
+}
