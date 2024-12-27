@@ -1,35 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./ProductList.css";  // Pastikan file ini ada dan diimport dengan benar
+import "../Css/ProductList.css"; // Pastikan file ini ada dan diimport dengan benar
+import { Link } from "react-router-dom"; // Pastikan kamu sudah mengimpor Link
 
 const ProductList = ({ isLoggedIn }) => {
   const [products, setProducts] = useState([]);
 
+  // Mengambil idAdmin dari localStorage setelah login
+  const adminData = JSON.parse(localStorage.getItem("adminData"));
+  const idAdmin = adminData ? adminData.id : null; // Ambil idAdmin dari localStorage
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/products")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Data yang diterima:", data);  // Log data produk
-        if (Array.isArray(data)) {
-          setProducts(data);
-        } else {
-          console.error("Data yang diterima bukan array", data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching products:", error);
-      });
-  }, []);
+    console.log('isLoggedIn:', isLoggedIn); // Debugging nilai isLoggedIn
+    console.log('idAdmin:', idAdmin); // Debugging nilai idAdmin
+
+    // Pastikan idAdmin ada sebelum melakukan fetch
+    if (idAdmin) {
+      fetch(`http://localhost:8080/api/products/getAllByAdmin/${idAdmin}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Data yang diterima:", data); // Log data produk
+          // Jika data adalah array, set produk
+          if (Array.isArray(data)) {
+            setProducts(data);
+          } else {
+            console.error("Data yang diterima tidak sesuai:", data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching products:", error);
+        });
+    } else {
+      console.error("idAdmin tidak ditemukan di localStorage.");
+    }
+  }, [idAdmin, isLoggedIn]); // Menambahkan isLoggedIn ke array dependency
 
   const deleteProduct = (productId) => {
     fetch(`http://localhost:8080/api/products/delete/${productId}`, {
       method: "DELETE",
     })
-      .then((response) => response.json())
       .then(() => {
         setProducts(products.filter((product) => product.id !== productId));
       })
       .catch((error) => console.error("Error deleting product:", error));
+  };
+
+  const handleAddProduct = () => {
+    // Tindakan untuk menambah produk
+    console.log('Tambah Produk');
   };
 
   return (
@@ -38,7 +55,6 @@ const ProductList = ({ isLoggedIn }) => {
       <table className="product-list-table">
         <thead>
           <tr>
-            <th>Gambar</th>
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Deskripsi</th>
@@ -49,33 +65,33 @@ const ProductList = ({ isLoggedIn }) => {
         <tbody>
           {products.map((product) => (
             <tr key={product.id}>
-              <td>
-                <img src={product.imageUrl} alt={product.name} style={{ width: "100px", height: "100px" }} />
-              </td>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.description}</td>
               <td>{product.stock}</td>
               <td>
-                {isLoggedIn && (
+               
                   <>
                     <Link to={`/edit-product/${product.id}`}>
-                      <button>Edit</button>
+                      <button className="edit-btn">Edit</button>
                     </Link>
-                    <button onClick={() => deleteProduct(product.id)}>Delete</button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteProduct(product.id)}
+                    >
+                      Hapus
+                    </button>
                   </>
-                )}
+                
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {isLoggedIn && (
-        <Link to="/add-product">
-          <button className="add-product-btn">+</button>
-        </Link>
-      )}
+      
+        <button className="add-product-btn" onClick={handleAddProduct}>+</button>
+      
     </div>
   );
 };

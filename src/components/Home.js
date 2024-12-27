@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";  // Navbar yang akan menyesuaikan dengan status login
-import "./Home.css";  // Styling untuk Home
+import "../Css/Home.css";  // Styling untuk Home
 import Beri from '../images/beri.png';  // Mengimpor gambar dari src/img
 import Jeruk from '../images/jeruk.png';
 import Pisang from "../images/pisang.png";

@@ -1,37 +1,43 @@
 import React, { useState } from "react";
-import "./AddProduct.css";
+import { useParams } from "react-router-dom";  // Untuk mendapatkan idAdmin dari URL
+import "../Css/AddProduct.css";
 
 const AddProduct = () => {
+  const { idAdmin } = useParams();  // Mengambil idAdmin dari URL
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [img, setImg] = useState(null); 
   const [description, setDescription] = useState(""); 
   const [stock, setStock] = useState(0);  
-
-  const handleImageChange = (e) => {
-    setImg(e.target.files[0]);  
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("price", price);
-    formData.append("image", img);  
-    formData.append("description", description);
-    formData.append("stock", stock);
+    // Membuat objek produk dalam format JSON
+    const productDTO = {
+      name: name,
+      price: price,
+      description: description,
+      stock: stock,
+    };
 
-    fetch("http://localhost:8080/api/products/add", {
+    // Mengirimkan data produk ke backend
+    fetch(`http://localhost:8080/api/products/add/${idAdmin}`, {
       method: "POST",
-      body: formData,  
+      headers: {
+        "Content-Type": "application/json", // Menentukan tipe data yang dikirim
+      },
+      body: JSON.stringify(productDTO),  // Mengirim data dalam format JSON
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Terjadi kesalahan saat menambahkan produk.");
+        }
+        return response.json();
+      })
       .then((data) => {
         alert("Produk berhasil ditambahkan!");
         setName("");  
         setPrice("");  
-        setImg(null);  
         setDescription("");  
         setStock(0);  
       })
@@ -64,15 +70,6 @@ const AddProduct = () => {
           />
         </div>
         <div className="input-group">
-          <label>Gambar Produk</label>
-          <input
-            type="file"
-            onChange={handleImageChange}
-            accept="image/*"
-            required
-          />
-        </div>
-        <div className="input-group">
           <label>Deskripsi</label>
           <textarea
             value={description}
@@ -91,11 +88,6 @@ const AddProduct = () => {
         </div>
         <button type="submit" className="submit-btn">Tambah Produk</button>
       </form>
-
-      {/* Menampilkan gambar yang dipilih */}
-      {img && <div className="image-preview">
-        <img src={URL.createObjectURL(img)} alt="Produk" />
-      </div>}
     </div>
   );
 };

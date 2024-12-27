@@ -1,10 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client"; // Perhatikan impor ini
-import App from "./App"; // Komponen utama aplikasi
+import React from 'react';
+import ReactDOM from 'react-dom/client'; // Perhatikan impor dari 'react-dom/client'
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById("root")); // Menggunakan createRoot di sini
+// Membuat root dan merender aplikasi
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Router>
     <App />
-  </React.StrictMode>
+  </Router>
 );

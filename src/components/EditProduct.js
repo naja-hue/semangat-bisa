@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './EditProduct.css'; // Jangan lupa pastikan ada file CSS-nya
+import '../Css/EditProduct.css'; // Jangan lupa pastikan ada file CSS-nya
 
 const EditProduct = () => {
   const { id } = useParams(); // Ambil id dari URL
@@ -9,39 +9,54 @@ const EditProduct = () => {
   const [product, setProduct] = useState(null);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [img, setImg] = useState('');
-  
+  const [stock, setStock] = useState('');
+
   useEffect(() => {
     // Ambil data produk berdasarkan id, misalnya dari API
-    // Misalnya, API fetch seperti ini:
-    // fetch(`api/products/${id}`)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setProduct(data);
-    //     setName(data.name);
-    //     setPrice(data.price);
-    //     setImg(data.img);
-    //   })
-    //   .catch(error => console.error(error));
-
-    // Untuk sementara menggunakan data dummy
-    const productData = {
-      name: 'Produk A',
-      price: '100000',
-      img: 'https://example.com/image.jpg',
-    };
-
-    setProduct(productData);
-    setName(productData.name);
-    setPrice(productData.price);
-    setImg(productData.img);
+    fetch(`http://localhost:8080/api/products/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        setProduct(data);
+        setName(data.name);
+        setPrice(data.price);
+        setStock(data.stock);
+      })
+      .catch(error => console.error(error));
   }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic untuk mengupdate produk ke database atau state
-    alert('Produk berhasil diperbarui!');
-    navigate('/product-list'); // Navigasi setelah edit produk
+
+    const productDTO = {
+      name,
+      price,
+      stock,
+    };
+
+    // Mengirimkan data produk yang telah diperbarui ke API
+    const idAdmin = 1; // Anda bisa menyesuaikan cara mendapatkan idAdmin sesuai kebutuhan
+
+    fetch(`http://localhost:8080/api/products/edit/${id}/${idAdmin}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productDTO),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Gagal memperbarui produk');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        alert('Produk berhasil diperbarui!');
+        navigate('/product-list/1'); // Navigasi setelah update
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat memperbarui produk.');
+      });
   };
 
   if (!product) {
@@ -71,11 +86,11 @@ const EditProduct = () => {
           />
         </div>
         <div>
-          <label>Gambar Produk (URL)</label>
+          <label>Stok Produk</label>
           <input
-            type="text"
-            value={img}
-            onChange={(e) => setImg(e.target.value)}
+            type="number"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
             required
           />
         </div>

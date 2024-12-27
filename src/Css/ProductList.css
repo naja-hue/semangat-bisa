@@ -1,0 +1,180 @@
+/* ProductList.css */
+.product-list-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding-top: 80px; /* Memberi jarak dari navbar */
+}
+
+.product-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+  background-color: #ffeef0; /* Pastel pink background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
+  border-radius: 10px; /* Sudut membulat */
+  overflow: hidden; /* Hilangkan bagian luar tabel */
+}
+
+.product-list-table th {
+  text-align: center; /* Menyelaraskan teks header ke tengah */
+}
+
+/* Menambahkan gaya khusus pada header tabel */
+.product-list-table thead tr {
+  background-color: #ffd7da; /* Pastel pink header */
+  color: #444; /* Warna teks sedikit gelap untuk kontras */
+  text-transform: uppercase; /* Huruf kapital di header */
+  letter-spacing: 1px; /* Spasi antar huruf */
+}
+
+
+.product-list-table th,
+.product-list-table td {
+  padding: 14px 16px;
+  border: 1px solid #ffc2c7; /* Pastel pink border */
+}
+
+.product-list-table tbody tr:nth-child(even) {
+  background-color: #ffebed; /* Latar pastel lebih terang untuk baris genap */
+}
+
+.product-list-table tbody tr:nth-child(odd) {
+  background-color: #fff5f6; /* Latar pastel berbeda untuk baris ganjil */
+}
+
+.product-list-table tbody tr:hover {
+  background-color: #ffcfd2; /* Highlight pastel pink pada hover */
+  cursor: pointer; /* Tambahkan efek kursor */
+  transition: background-color 0.3s ease;
+}
+
+.dft {
+  color: #e75480; /* Soft pink heading */
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Tombol Edit */
+.edit-btn {
+  background-color: #ff80ab; 
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #ff4081;
+}
+
+/* Tombol Delete */
+.delete-btn {
+  background-color: #f50057;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #d40047;
+}
+
+/* Tombol Add Product */
+.add-product-btn {
+  background-color: #ff4081;
+  color: white;
+  font-size: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-product-btn:hover {
+  background-color: #ff80ab;
+}
+
+
+/* Responsif untuk tablet dan mobile */
+@media (max-width: 1024px) {
+  .product-list-table th, .product-list-table td {
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+
+  .add-product-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
+
+  .dft {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-list-table th, .product-list-table td {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .add-product-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .dft {
+    font-size: 20px;
+  }
+
+  .product-list-container {
+    margin: 10px;
+  }
+
+  .product-list-table {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-list-table th, .product-list-table td {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .add-product-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+
+  .dft {
+    font-size: 18px;
+  }
+
+  .product-list-container {
+    margin: 5px;
+  }
+}

@@ -1,0 +1,128 @@
+/* Register.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffe6f2; /* Ganti background body ke pink muda */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #ffe6f2; /* Ganti background container ke pink muda */
+  }
+  
+  .card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: -90px;
+    border: 2px solid #ff6fa3; /* Border pink pada card */
+  }
+  
+  .card-title {
+    font-size: 26px;
+    color: #ff6fa3; /* Pink untuk judul */
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .form-label {
+    font-size: 14px;
+    color: #ff6fa3; /* Ganti label menjadi pink */
+    text-align: left;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .input-group-text {
+    background-color: #ff6fa3; /* Ganti background icon kiri ke pink */
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .form-control {
+    padding: 10px;
+    border: 1px solid #ff6fa3; /* Ganti border input menjadi pink */
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .input-group .form-control {
+    border-left: none;
+  }
+  
+  .btn-primary {
+    background-color: #ff6fa3; /* Tombol menjadi pink */
+    border: none;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #e62e85; /* Warna pink lebih gelap saat hover */
+  }
+  
+  .error-message {
+    color: #ff3b3b;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .text-center {
+    font-size: 14px;
+  }
+  
+  .text-primary {
+    color: #ff6fa3; /* Link jadi pink */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .text-primary:hover {
+    color: #e62e85; /* Warna link saat hover */
+  }
+  
+  .input-group button {
+    background-color: #ff6fa3; /* Button di dalam input group jadi pink */
+    border: 1px solid #ddd;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .input-group button:hover {
+    background-color: #e62e85; /* Warna button saat hover */
+    color: white;
+  }
+  
+  a {
+    color: #ff6fa3; /* Link jadi pink */
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #e62e85; /* Warna link saat hover */
+  }
+  

@@ -102,6 +102,21 @@
     font-size: 18px;
   }
   
+  .register-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .register-link a {
+    color: #e75480; /* Warna pink pastel */
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
   /* Responsif untuk ukuran layar kecil */
   @media (max-width: 768px) {
     .login-form {
