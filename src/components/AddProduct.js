@@ -1,49 +1,70 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";  // Untuk mendapatkan idAdmin dari URL
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import "../Css/AddProduct.css";
 
 const AddProduct = () => {
-  const { idAdmin } = useParams();  // Mengambil idAdmin dari URL
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [description, setDescription] = useState(""); 
-  const [stock, setStock] = useState(0);  
+  const [description, setDescription] = useState("");
+  const [stock, setStock] = useState(0);
+
+  const adminData = JSON.parse(localStorage.getItem("adminData"));
+  const idAdmin = adminData ? adminData.id : null;
+
+  if (!idAdmin) {
+    Swal.fire({
+      title: "Gagal",
+      text: "Admin ID tidak ditemukan. Pastikan Anda sudah login.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    return null;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Membuat objek produk dalam format JSON
     const productDTO = {
       name: name,
-      price: price,
+      price: parseFloat(price),
       description: description,
       stock: stock,
     };
 
-    // Mengirimkan data produk ke backend
-    fetch(`http://localhost:8080/api/products/add/${idAdmin}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Menentukan tipe data yang dikirim
-      },
-      body: JSON.stringify(productDTO),  // Mengirim data dalam format JSON
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Terjadi kesalahan saat menambahkan produk.");
-        }
-        return response.json();
+    axios
+      .post(`http://localhost:8080/api/products/add/${idAdmin}`, productDTO, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .then((data) => {
-        alert("Produk berhasil ditambahkan!");
-        setName("");  
-        setPrice("");  
-        setDescription("");  
-        setStock(0);  
+      .then((response) => {
+        if (response.status === 201) {
+          Swal.fire({
+            title: "Berhasil",
+            text: "Produk berhasil ditambahkan!",
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then(() => {
+            setName("");
+            setPrice("");
+            setDescription("");
+            setStock(0);
+
+            navigate("/product-list");
+          });
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("Terjadi kesalahan saat menambahkan produk.");
+        Swal.fire({
+          title: "Gagal",
+          text: "Terjadi kesalahan saat menambahkan produk.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
   };
 
@@ -63,7 +84,8 @@ const AddProduct = () => {
         <div className="input-group">
           <label>Harga Produk</label>
           <input
-            type="text"
+            type="number"
+            step="0.01"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required

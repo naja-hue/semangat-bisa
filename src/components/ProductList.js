@@ -44,17 +44,13 @@ const ProductList = ({ isLoggedIn }) => {
       .catch((error) => console.error("Error deleting product:", error));
   };
 
-  const handleAddProduct = () => {
-    // Tindakan untuk menambah produk
-    console.log('Tambah Produk');
-  };
-
   return (
     <div className="product-list-container">
       <h2 className="dft">Daftar Produk</h2>
       <table className="product-list-table">
         <thead>
           <tr>
+            <th>No</th> {/* Kolom nomor urut */}
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Deskripsi</th>
@@ -63,35 +59,33 @@ const ProductList = ({ isLoggedIn }) => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
+          {products.map((product, index) => (
             <tr key={product.id}>
+              <td>{index + 1}</td> {/* Menampilkan nomor urut berdasarkan index */}
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.description}</td>
               <td>{product.stock}</td>
               <td>
-               
-                  <>
-                    <Link to={`/edit-product/${product.id}`}>
-                      <button className="edit-btn">Edit</button>
-                    </Link>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deleteProduct(product.id)}
-                    >
-                      Hapus
-                    </button>
-                  </>
-                
+                <Link to={`/edit-product/${product.id}`}>
+                  <button className="edit-btn">Edit</button>
+                </Link>
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteProduct(product.id)}
+                >
+                  Hapus
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      
-        <button className="add-product-btn" onClick={handleAddProduct}>+</button>
-      
+      {/* Navigasi ke halaman AddProduct */}
+      <Link to="/add-product">
+        <button className="add-product-btn">+</button>
+      </Link>
     </div>
   );
 };

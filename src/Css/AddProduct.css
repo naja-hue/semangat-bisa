@@ -1,70 +1,64 @@
 .addProduct-container {
-  background-color: #f7b8d4; /* Latar belakang cerah */
+  background-color: #fff0f6; /* Latar belakang dominan pink */
   padding: 20px;
-  max-width: 400px; /* Lebar yang lebih kecil */
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  margin-top: 120px; /* Menambahkan lebih banyak margin-top untuk menghindari tertutup navbar */
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 160px auto; /* Memberikan margin di atas dan bawah agar tidak tertutup navbar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
+  color: #d81b60; /* Warna pink cerah */
   text-align: center;
-  margin-bottom: 15px;
-  font-size: 1.6rem;
-  color: #ff1493;
+  margin-bottom: 20px;
 }
 
 .input-group {
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center; /* Menyelaraskan label dan input secara horizontal */
+  margin-bottom: 15px;
 }
 
 .input-group label {
-  display: block;
-  font-size: 0.95rem;
-  margin-bottom: 5px;
-  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  color: #d81b60; /* Warna pink cerah */
+  margin-right: 15px; /* Memberikan jarak antara label dan input */
+  min-width: 150px; /* Menyediakan lebar tetap untuk label */
 }
 
 .input-group input,
 .input-group textarea {
-  width: 100%;
-  padding: 8px;
-  font-size: 0.95rem;
-  border: 1px solid #ddd;
+  padding: 10px;
   border-radius: 5px;
-  box-sizing: border-box;
+  border: 1px solid #d81b60; /* Border berwarna pink */
+  font-size: 14px;
+  width: 100%; /* Agar semua input memiliki lebar yang sama */
+  box-sizing: border-box; /* Memastikan padding dihitung dalam lebar input */
+}
+
+.input-group input[type="number"] {
+  width: 100%; /* Menyesuaikan lebar input stok dengan input lainnya */
+  text-align: center; /* Menengahkan angka stok */
 }
 
 .input-group textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 80px;
 }
 
 .submit-btn {
-  background-color: #ff69b4; /* Warna pink */
+  background-color: #d81b60; /* Tombol dengan latar belakang pink */
   color: white;
-  padding: 12px 20px;
-  font-size: 1.1rem;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
   width: 100%;
-  transition: background-color 0.3s;
 }
 
 .submit-btn:hover {
-  background-color: #ff5590;
-}
-
-.image-preview {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.image-preview img {
-  max-width: 180px;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #c2185b; /* Warna lebih gelap saat hover */
 }

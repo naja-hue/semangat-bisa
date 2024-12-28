@@ -1,79 +1,69 @@
-/* Container utama untuk halaman edit produk */
 .edit-product-container {
-    background-color: #ffe6f1; /* Warna background pink pastel */
-    padding: 2rem; /* Padding lebih besar agar form tidak terlalu sempit */
-    border-radius: 15px;
-    max-width: 500px; /* Lebar maksimum form */
-    margin: 2rem auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 150px; /* Memberikan jarak dari navbar */
-}
-
-/* Judul halaman */
-.edit-product-container h2 {
-    font-family: 'Dancing Script', cursive; /* Font estetik */
-    color: #ff66b2; /* Warna pink cerah */
+    background-color: #fff0f6; /* Pink pastel untuk background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 160px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-product-container h2 {
+    color: #d40075; /* Warna pink cerah untuk judul */
     text-align: center;
-    margin-bottom: 1rem;
-    font-size: 1.8rem; /* Ukuran font lebih kecil */
-}
-
-/* Form styling */
-.edit-product-container form {
+    margin-bottom: 20px;
+  }
+  
+  .edit-product-container form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Mengurangi jarak antar elemen untuk lebih rapat */
-}
-
-/* Label styling */
-.edit-product-container label {
+    gap: 15px;
+  }
+  
+  .edit-product-container form div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .edit-product-container form label {
+    flex: 1;
+    color: #d40075; /* Warna pink cerah untuk label */
     font-weight: bold;
-    font-size: 1rem;
-    color: #ff3399; /* Warna pink lebih gelap */
-    margin-bottom: 0.5rem; /* Memberikan jarak antara label dan input */
-}
-
-/* Input styling */
-.edit-product-container input {
-    padding: 0.8rem; /* Padding yang lebih nyaman */
-    border: 2px solid #ff66b2;
-    border-radius: 8px; /* Sudut lebih membulat */
-    font-size: 1rem; /* Ukuran font lebih besar dan nyaman dibaca */
-    color: #333;
-    transition: border 0.3s ease;
-    width: 100%; /* Membuat input mengisi lebar kontainer */
-    box-sizing: border-box; /* Agar padding tidak melebihi lebar yang diinginkan */
-}
-
-/* Input focus effect */
-.edit-product-container input:focus {
-    border-color: #ff3399; /* Warna border berubah saat fokus */
+  }
+  
+  .edit-product-container form input,
+  .edit-product-container form textarea {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #f5a6c6; /* Border pink */
+    border-radius: 5px;
+    background-color: #fff0f6; /* Background input pink muda */
+    color: #d40075; /* Teks pink */
+  }
+  
+  .edit-product-container form input:focus,
+  .edit-product-container form textarea:focus {
     outline: none;
-}
-
-/* Tombol submit styling */
-.edit-product-container button {
-    padding: 0.6rem 1.5rem; /* Padding lebih kecil agar tombol lebih proporsional */
-    background-color: #ff66b2; /* Pink cerah */
+    border-color: #ff66b2; /* Border pink saat fokus */
+    box-shadow: 0 0 5px #ff99cc; /* Efek glow pink */
+  }
+  
+  .textarea-input {
+    resize: none; /* Nonaktifkan resize untuk textarea */
+    height: 100px; /* Tinggi default */
+  }
+  
+  .edit-product-container button {
+    background-color: #ff66b2; /* Tombol pink cerah */
     color: white;
+    font-weight: bold;
+    padding: 10px 20px;
     border: none;
-    border-radius: 30px;
-    font-size: 1rem; /* Ukuran font lebih kecil */
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-weight: bold;
-    margin-top: 1rem;
-    width: 100%; /* Tombol mengisi lebar kontainer */
-    max-width: 400px; /* Lebar tombol lebih terkontrol */
-    align-self: center; /* Menjaga tombol tetap terpusat */
-}
-
-/* Hover efek pada tombol */
-.edit-product-container button:hover {
-    background-color: #ff3399; /* Warna pink gelap saat hover */
-}
-
-/* Efek saat tombol ditekan */
-.edit-product-container button:active {
-    background-color: #ff1a75; /* Warna lebih gelap saat klik */
-}
+  }
+  
+  .edit-product-container button:hover {
+    background-color: #d40075; /* Tombol pink gelap saat hover */
+  }
+  

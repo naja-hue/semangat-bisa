@@ -20,6 +20,7 @@ function App() {
   }, []);
 
   const navigate = useNavigate();
+  
 
   const handleLoginLogout = () => {
     setIsLoggedIn(!isLoggedIn);
@@ -41,13 +42,14 @@ function App() {
         {/* Rute untuk halaman Login */}
         <Route path="/login" element={<Login handleLoginLogout={handleLoginLogout} />} />
 
+        <Route path="/register" element={<Register />} />
+
         {/* Rute untuk halaman Daftar Produk hanya bisa diakses jika sudah login */}
         {isLoggedIn && (
           <>
             <Route path="/product-list" element={<PrivateRoute element={<ProductList />} />} />
             <Route path="/add-product" element={<PrivateRoute element={<AddProduct />} />} />
             <Route path="/edit-product/:id" element={<PrivateRoute element={<EditProduct />} />} />
-            <Route path="/register" element={<Register />} />
           </>
         )}
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../Css/EditProduct.css'; // Jangan lupa pastikan ada file CSS-nya
+import Swal from 'sweetalert2';  // Import SweetAlert2
+import '../Css/EditProduct.css'; // Pastikan file CSS tersedia
 
 const EditProduct = () => {
   const { id } = useParams(); // Ambil id dari URL
@@ -10,9 +11,14 @@ const EditProduct = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
+  const [description, setDescription] = useState(''); // Menambahkan state untuk deskripsi
 
+  // Mengambil idAdmin dari localStorage
+  const adminData = JSON.parse(localStorage.getItem("adminData"));
+  const idAdmin = adminData ? adminData.id : null;
+
+  // Ambil data produk berdasarkan id
   useEffect(() => {
-    // Ambil data produk berdasarkan id, misalnya dari API
     fetch(`http://localhost:8080/api/products/${id}`)
       .then(response => response.json())
       .then(data => {
@@ -20,8 +26,9 @@ const EditProduct = () => {
         setName(data.name);
         setPrice(data.price);
         setStock(data.stock);
+        setDescription(data.description); // Set deskripsi dari data yang diterima
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error('Error fetching data:', error));
   }, [id]);
 
   const handleSubmit = (e) => {
@@ -31,32 +38,57 @@ const EditProduct = () => {
       name,
       price,
       stock,
+      description, // Sertakan deskripsi dalam body request
     };
 
-    // Mengirimkan data produk yang telah diperbarui ke API
-    const idAdmin = 1; // Anda bisa menyesuaikan cara mendapatkan idAdmin sesuai kebutuhan
+    // Pastikan idAdmin ada, jika tidak, tampilkan pesan error
+    if (!idAdmin) {
+      alert('Admin ID tidak ditemukan!');
+      return;
+    }
 
-    fetch(`http://localhost:8080/api/products/edit/${id}/${idAdmin}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(productDTO),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Gagal memperbarui produk');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        alert('Produk berhasil diperbarui!');
-        navigate('/product-list/1'); // Navigasi setelah update
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat memperbarui produk.');
-      });
+    // Menampilkan konfirmasi menggunakan SweetAlert2 sebelum update produk
+    Swal.fire({
+      title: 'Apakah Anda yakin ingin memperbarui produk?',
+      text: 'Periksa kembali data produk yang akan diperbarui.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Perbarui Produk!',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Mengirimkan data produk yang telah diperbarui ke API
+        fetch(`http://localhost:8080/api/products/edit/${id}/${idAdmin}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(productDTO),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Gagal memperbarui produk');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            Swal.fire(
+              'Produk Diperbarui!',
+              'Produk berhasil diperbarui.',
+              'success'
+            );
+            navigate('/product-list/1'); // Navigasi setelah update
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            Swal.fire(
+              'Gagal!',
+              'Terjadi kesalahan saat memperbarui produk.',
+              'error'
+            );
+          });
+      }
+    });
   };
 
   if (!product) {
@@ -83,6 +115,15 @@ const EditProduct = () => {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
+          />
+        </div>
+        <div>
+          <label>Deskripsi Produk</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            className="textarea-input" // Menambahkan kelas untuk styling
           />
         </div>
         <div>

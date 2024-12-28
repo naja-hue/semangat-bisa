@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Navbar from "./Navbar";  // Navbar yang akan menyesuaikan dengan status login
 import "../Css/Home.css";  // Styling untuk Home
 import Beri from '../images/beri.png';  // Mengimpor gambar dari src/img
@@ -14,6 +13,9 @@ import Nanas from '../images/nanas.png';
 import Semangka from '../images/smk.png';
 import Pir from '../images/pir.png';
 import Leci from '../images/leci.png';
+
+// Import SweetAlert2
+import Swal from 'sweetalert2';
 
 const Home = ({ isLoggedIn, handleLoginLogout }) => {
   const products = [
@@ -31,6 +33,27 @@ const Home = ({ isLoggedIn, handleLoginLogout }) => {
     { id: 12, name: "Leci", img: Leci, price: "Rp 195.000" },
   ];
 
+  // Fungsi untuk menangani klik tombol "Beli Sekarang"
+  const handleBuyNow = (productName) => {
+    Swal.fire({
+      title: 'Apakah Anda ingin membeli ' + productName + '?',
+      text: "Pastikan produk yang Anda pilih sudah benar.",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, beli sekarang!',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Arahkan ke halaman pembelian atau lakukan aksi lain
+        Swal.fire(
+          'Terima Kasih!',
+          'Produk telah dibeli.',
+          'success'
+        );
+      }
+    });
+  };
+
   return (
     <div className="home-container">
       {/* Navbar yang berubah sesuai status login */}
@@ -47,9 +70,12 @@ const Home = ({ isLoggedIn, handleLoginLogout }) => {
               <img src={product.img} alt={product.name} className="product-image" />
               <h3 className="product-name">{product.name}</h3>
               <p className="product-price">{product.price}</p>
-              <Link to={`/buy-now/${product.id}`}>
-                <button className="buy">Beli Sekarang</button>
-              </Link>
+              <button
+                className="buy"
+                onClick={() => handleBuyNow(product.name)} // Memanggil fungsi untuk membeli
+              >
+                Beli Sekarang
+              </button>
             </div>
           ))}
         </div>

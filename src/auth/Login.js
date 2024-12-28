@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { FaUser, FaLock } from 'react-icons/fa'; // Import ikon dari react-icons
 import '../Css/Login.css'; // Pastikan file CSS kamu ada
@@ -80,11 +81,11 @@ const Login = ({ handleLoginLogout }) => {
           <button type="submit">Login</button>
         </form>
         <p className="register-link">
-          Belum punya akun?{' '}
-          <a href="/register" className="text-primary">
-            Daftar di sini
-          </a>
-        </p>
+  Belum punya akun?{' '}
+  <Link to="/register" className="text-primary">
+    Daftar di sini
+  </Link>
+</p>
       </div>
     </div>
   );
