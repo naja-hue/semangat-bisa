@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { FaUser, FaLock } from 'react-icons/fa'; // Import ikon dari react-icons
-import '../Css/Login.css'; // Pastikan file CSS kamu ada
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUser, FaLock } from 'react-icons/fa';
+import '../Css/Login.css';
 import Navbar from '../components/Navbar';
+import axios from 'axios'; // Import axios
+import { API_LOGIN } from '../utils/BaseUrl';
 
 const Login = ({ handleLoginLogout }) => {
-  const [email, setEmail] = useState(''); // Menggunakan 'email' sebagai state
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Deklarasi navigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Pastikan email dan password diisi
     if (!email || !password) {
       setError('Silakan isi email dan password.');
       return;
@@ -23,30 +23,26 @@ const Login = ({ handleLoginLogout }) => {
 
     try {
       // Kirim request login ke backend dengan email
-      const response = await fetch('http://localhost:8080/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }), // Menggunakan 'email' bukannya 'username'
+      const response = await axios.post(`${API_LOGIN}`, {
+        email, // Gunakan email alih-alih username
+        password,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        const { token, adminData } = data; // Misalnya, data yang diterima berisi token dan adminData
+      const { token, adminData } = response.data;
 
-        // Simpan token dan data admin yang diterima dari server
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('adminData', JSON.stringify(adminData));
+      // Simpan token dan data admin yang diterima dari server
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('adminData', JSON.stringify(adminData));
+      localStorage.setItem("adminId", adminData.id);
 
-        // Redirect ke halaman produk
-        navigate('/product-list');
-      } else {
-        const errorData = await response.text();
-        setError(errorData || 'Login gagal');
-      }
+      // Redirect ke halaman produk
+      navigate('/product-list');
     } catch (error) {
-      setError('Terjadi kesalahan saat login.');
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || 'Login gagal');
+      } else {
+        setError('Terjadi kesalahan saat login.');
+      }
     }
   };
 
@@ -60,12 +56,12 @@ const Login = ({ handleLoginLogout }) => {
           <div className="input-container">
             <FaUser className="input-icon" />
             <input
-              type="email" // Pastikan input type adalah 'email'
-              value={email} // Bind the 'email' state to input
+              type="email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Masukkan email"
-              autoComplete="off" // Menonaktifkan fitur autocomplete pada input email
+              autoComplete="off"
             />
           </div>
           <div className="input-container">
@@ -81,11 +77,11 @@ const Login = ({ handleLoginLogout }) => {
           <button type="submit">Login</button>
         </form>
         <p className="register-link">
-  Belum punya akun?{' '}
-  <Link to="/register" className="text-primary">
-    Daftar di sini
-  </Link>
-</p>
+          Belum punya akun?{' '}
+          <Link to="/register" className="text-primary">
+            Daftar di sini
+          </Link>
+        </p>
       </div>
     </div>
   );

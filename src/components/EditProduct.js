@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';  // Import SweetAlert2
+import Swal from 'sweetalert2';
 import '../Css/EditProduct.css'; // Pastikan file CSS tersedia
+import axios from 'axios'; // Import Axios
+import { API_PRODUCT } from '../utils/BaseUrl';
 
 const EditProduct = () => {
   const { id } = useParams(); // Ambil id dari URL
@@ -11,7 +13,7 @@ const EditProduct = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
-  const [description, setDescription] = useState(''); // Menambahkan state untuk deskripsi
+  const [description, setDescription] = useState('');
 
   // Mengambil idAdmin dari localStorage
   const adminData = JSON.parse(localStorage.getItem("adminData"));
@@ -19,76 +21,58 @@ const EditProduct = () => {
 
   // Ambil data produk berdasarkan id
   useEffect(() => {
-    fetch(`http://localhost:8080/api/products/${id}`)
-      .then(response => response.json())
-      .then(data => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`${API_PRODUCT}/products/${id}`);
+        const data = response.data;
         setProduct(data);
         setName(data.name);
         setPrice(data.price);
         setStock(data.stock);
-        setDescription(data.description); // Set deskripsi dari data yang diterima
-      })
-      .catch(error => console.error('Error fetching data:', error));
+        setDescription(data.description);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchProduct();
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const productDTO = {
       name,
       price,
       stock,
-      description, // Sertakan deskripsi dalam body request
+      description,
     };
 
-    // Pastikan idAdmin ada, jika tidak, tampilkan pesan error
     if (!idAdmin) {
       alert('Admin ID tidak ditemukan!');
       return;
     }
 
-    // Menampilkan konfirmasi menggunakan SweetAlert2 sebelum update produk
-    Swal.fire({
-      title: 'Apakah Anda yakin ingin memperbarui produk?',
-      text: 'Periksa kembali data produk yang akan diperbarui.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Ya, Perbarui Produk!',
-      cancelButtonText: 'Batal',
-    }).then((result) => {
+    try {
+      // Konfirmasi menggunakan SweetAlert2
+      const result = await Swal.fire({
+        title: 'Apakah Anda yakin ingin memperbarui produk?',
+        text: 'Periksa kembali data produk yang akan diperbarui.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Perbarui Produk!',
+        cancelButtonText: 'Batal',
+      });
+
       if (result.isConfirmed) {
-        // Mengirimkan data produk yang telah diperbarui ke API
-        fetch(`http://localhost:8080/api/products/edit/${id}/${idAdmin}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(productDTO),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Gagal memperbarui produk');
-            }
-            return response.json();
-          })
-          .then((data) => {
-            Swal.fire(
-              'Produk Diperbarui!',
-              'Produk berhasil diperbarui.',
-              'success'
-            );
-            navigate('/product-list/1'); // Navigasi setelah update
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-            Swal.fire(
-              'Gagal!',
-              'Terjadi kesalahan saat memperbarui produk.',
-              'error'
-            );
-          });
+        await axios.put(`${API_PRODUCT}/edit/${id}?idAdmin=${idAdmin}`, productDTO);
+        Swal.fire('Produk Diperbarui!', 'Produk berhasil diperbarui.', 'success');
+        navigate('/product-list/1'); // Navigasi setelah update
       }
-    });
+    } catch (error) {
+      console.error('Error updating product:', error);
+      Swal.fire('Gagal!', 'Terjadi kesalahan saat memperbarui produk.', 'error');
+    }
   };
 
   if (!product) {
@@ -123,7 +107,7 @@ const EditProduct = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="textarea-input" // Menambahkan kelas untuk styling
+            className="textarea-input"
           />
         </div>
         <div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2"; // Import SweetAlert2
 import "../Css/AddProduct.css";
+import { API_PRODUCT } from "../utils/BaseUrl";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const AddProduct = () => {
     };
 
     axios
-      .post(`http://localhost:8080/api/products/add/${idAdmin}`, productDTO, {
+      .post(`${API_PRODUCT}/add/${idAdmin}`, productDTO, {
         headers: {
           "Content-Type": "application/json",
         },

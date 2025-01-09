@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
-import "../Css/ProductList.css"; // Pastikan file ini ada dan diimport dengan benar
-import { Link } from "react-router-dom"; // Pastikan kamu sudah mengimpor Link
+import axios from "axios";
+import "../Css/ProductList.css";
+import { Link } from "react-router-dom";
+import { API_PRODUCT } from "../utils/BaseUrl";
 
 const ProductList = ({ isLoggedIn }) => {
   const [products, setProducts] = useState([]);
 
   // Mengambil idAdmin dari localStorage setelah login
   const adminData = JSON.parse(localStorage.getItem("adminData"));
-  const idAdmin = adminData ? adminData.id : null; // Ambil idAdmin dari localStorage
+  const idAdmin = adminData ? adminData.id : null;
 
   useEffect(() => {
-    console.log('isLoggedIn:', isLoggedIn); // Debugging nilai isLoggedIn
-    console.log('idAdmin:', idAdmin); // Debugging nilai idAdmin
+    console.log("isLoggedIn:", isLoggedIn);
+    console.log("idAdmin:", idAdmin);
 
     // Pastikan idAdmin ada sebelum melakukan fetch
     if (idAdmin) {
-      fetch(`http://localhost:8080/api/products/getAllByAdmin/${idAdmin}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Data yang diterima:", data); // Log data produk
-          // Jika data adalah array, set produk
-          if (Array.isArray(data)) {
-            setProducts(data);
+      axios
+        .get(`${API_PRODUCT}/getAllByAdmin/${idAdmin}`)
+        .then((response) => {
+          console.log("Data yang diterima:", response.data);
+          if (Array.isArray(response.data)) {
+            setProducts(response.data);
           } else {
-            console.error("Data yang diterima tidak sesuai:", data);
+            console.error("Data yang diterima tidak sesuai:", response.data);
           }
         })
         .catch((error) => {
@@ -32,16 +33,30 @@ const ProductList = ({ isLoggedIn }) => {
     } else {
       console.error("idAdmin tidak ditemukan di localStorage.");
     }
-  }, [idAdmin, isLoggedIn]); // Menambahkan isLoggedIn ke array dependency
+  }, [idAdmin, isLoggedIn]);
 
-  const deleteProduct = (productId) => {
-    fetch(`http://localhost:8080/api/products/delete/${productId}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        setProducts(products.filter((product) => product.id !== productId));
-      })
-      .catch((error) => console.error("Error deleting product:", error));
+  const deleteProduct = async (productId) => {
+    try {
+      await axios.delete(`${API_PRODUCT}/delete/${productId}`);
+      setProducts(products.filter((product) => product.id !== productId));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const updateProduct = async (productId, updatedData) => {
+    try {
+      const response = await axios.put(`${API_PRODUCT}/update/${productId}`, updatedData);
+      const updatedProduct = response.data;
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === productId ? { ...product, ...updatedProduct } : product
+        )
+      );
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
   return (
@@ -50,7 +65,7 @@ const ProductList = ({ isLoggedIn }) => {
       <table className="product-list-table">
         <thead>
           <tr>
-            <th>No</th> {/* Kolom nomor urut */}
+            <th>No</th>
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Deskripsi</th>
@@ -61,7 +76,7 @@ const ProductList = ({ isLoggedIn }) => {
         <tbody>
           {products.map((product, index) => (
             <tr key={product.id}>
-              <td>{index + 1}</td> {/* Menampilkan nomor urut berdasarkan index */}
+              <td>{index + 1}</td>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.description}</td>
@@ -82,7 +97,6 @@ const ProductList = ({ isLoggedIn }) => {
         </tbody>
       </table>
 
-      {/* Navigasi ke halaman AddProduct */}
       <Link to="/add-product">
         <button className="add-product-btn">+</button>
       </Link>
