@@ -24,7 +24,7 @@ const Login = ({ handleLoginLogout }) => {
     try {
       // Kirim request login ke backend dengan email
       const response = await axios.post(`${API_LOGIN}`, {
-        email, // Gunakan email alih-alih username
+        email, 
         password,
       });
 
