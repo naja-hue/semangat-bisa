@@ -110,7 +110,7 @@ const AddProduct = () => {
       <h2>Tambah Produk Baru</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label>Nama Produk</label>
+          <label>Nama</label>
           <input
             type="text"
             value={name}
