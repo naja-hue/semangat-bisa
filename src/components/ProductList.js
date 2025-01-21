@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Css/ProductList.css";
 import { Link } from "react-router-dom";
-import { API_PRODUCT } from "../utils/BaseUrl";
+import { API_PRODUCTS } from "../utils/BaseUrl";
 
 const ProductList = ({ isLoggedIn }) => {
   const [products, setProducts] = useState([]);
@@ -17,8 +17,7 @@ const ProductList = ({ isLoggedIn }) => {
 
     // Pastikan idAdmin ada sebelum melakukan fetch
     if (idAdmin) {
-      axios
-        .get(`${API_PRODUCT}/getAllByAdmin/${idAdmin}`)
+      axios.get(`${API_PRODUCTS}/getAllByAdmin/${idAdmin}`)
         .then((response) => {
           console.log("Data yang diterima:", response.data);
           if (Array.isArray(response.data)) {
@@ -37,25 +36,10 @@ const ProductList = ({ isLoggedIn }) => {
 
   const deleteProduct = async (productId) => {
     try {
-      await axios.delete(`${API_PRODUCT}/delete/${productId}`);
+      await axios.delete(`${API_PRODUCTS}/delete/${productId}`);
       setProducts(products.filter((product) => product.id !== productId));
     } catch (error) {
       console.error("Error deleting product:", error);
-    }
-  };
-
-  const updateProduct = async (productId, updatedData) => {
-    try {
-      const response = await axios.put(`${API_PRODUCT}/update/${productId}`, updatedData);
-      const updatedProduct = response.data;
-
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === productId ? { ...product, ...updatedProduct } : product
-        )
-      );
-    } catch (error) {
-      console.error("Error updating product:", error);
     }
   };
 
@@ -66,6 +50,7 @@ const ProductList = ({ isLoggedIn }) => {
         <thead>
           <tr>
             <th>No</th>
+            <th>Gambar</th>
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Deskripsi</th>
@@ -77,6 +62,13 @@ const ProductList = ({ isLoggedIn }) => {
           {products.map((product, index) => (
             <tr key={product.id}>
               <td>{index + 1}</td>
+              <td>
+                {product.imageURL ? (
+                  <img src={product.imageURL} alt={product.name} style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+                ) : (
+                  <span>Tidak Ada Foto</span>
+                )}
+              </td>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.description}</td>

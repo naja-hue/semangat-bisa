@@ -3,7 +3,34 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import '../Css/EditProduct.css'; // Pastikan file CSS tersedia
 import axios from 'axios'; // Import Axios
-import { API_PRODUCT } from '../utils/BaseUrl';
+import { API_PRODUCTS } from '../utils/BaseUrl';
+
+export const uploadImageToS3 = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("https://s3.lynk2.co/api/s3/profile", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Gagal mengupload gambar ke S3");
+    }
+
+    const data = await response.json();
+    if (data.data && data.data.url_file) {
+      console.log("URL gambar berhasil didapat:", data.data.url_file);
+      return data.data.url_file;
+    } else {
+      throw new Error("URL gambar tidak tersedia dalam respons S3");
+    }
+  } catch (error) {
+    console.error("Error upload ke S3:", error);
+    throw error;
+  }
+};
 
 const EditProduct = () => {
   const { id } = useParams(); // Ambil id dari URL
@@ -14,6 +41,7 @@ const EditProduct = () => {
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImage] = useState(null); // State untuk gambar
 
   // Mengambil idAdmin dari localStorage
   const adminData = JSON.parse(localStorage.getItem("adminData"));
@@ -23,7 +51,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`${API_PRODUCT}/products/${id}`);
+        const response = await axios.get(`${API_PRODUCTS}/${id}`);
         const data = response.data;
         setProduct(data);
         setName(data.name);
@@ -54,6 +82,12 @@ const EditProduct = () => {
     }
 
     try {
+      // Upload gambar jika ada file
+      if (image) {
+        const imageUrl = await uploadImageToS3(image);
+        productDTO.image = imageUrl; // Tambahkan URL gambar ke data produk
+      }
+
       // Konfirmasi menggunakan SweetAlert2
       const result = await Swal.fire({
         title: 'Apakah Anda yakin ingin memperbarui produk?',
@@ -65,7 +99,7 @@ const EditProduct = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.put(`${API_PRODUCT}/edit/${id}?idAdmin=${idAdmin}`, productDTO);
+        await axios.put(`${API_PRODUCTS}/edit/${id}?idAdmin=${idAdmin}`, productDTO);
         Swal.fire('Produk Diperbarui!', 'Produk berhasil diperbarui.', 'success');
         navigate('/product-list/1'); // Navigasi setelah update
       }
@@ -117,6 +151,14 @@ const EditProduct = () => {
             value={stock}
             onChange={(e) => setStock(e.target.value)}
             required
+          />
+        </div>
+        <div>
+          <label>Gambar Produk</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
         <button type="submit">Perbarui Produk</button>

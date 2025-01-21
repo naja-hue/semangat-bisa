@@ -55,7 +55,16 @@
   text-align: center;
   font-weight: bold;
   margin-bottom: 20px;
+  font-size: 2em; /* Ukuran font lebih besar */
+  text-transform: uppercase; /* Huruf besar untuk semua teks */
+  letter-spacing: 3px; /* Jarak antar huruf */
+  padding: 15px 20px; /* Ruang tambahan di sekitar teks */
+  background: linear-gradient(90deg, #ffe4e1, #f8c8dc); /* Gradasi latar belakang */
+  border-radius: 12px; /* Membuat sudut melengkung */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+  border: 2px solid #e75480; /* Garis tepi */
 }
+
 
 /* Tombol Edit */
 .edit-btn {

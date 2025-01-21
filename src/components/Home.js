@@ -35,25 +35,20 @@ const Home = ({ isLoggedIn, handleLoginLogout }) => {
 
   // Fungsi untuk menangani klik tombol "Beli Sekarang"
   const handleBuyNow = (productName) => {
-    Swal.fire({
-      title: 'Apakah Anda ingin membeli ' + productName + '?',
-      text: "Pastikan produk yang Anda pilih sudah benar.",
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Ya, beli sekarang!',
-      cancelButtonText: 'Batal',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Arahkan ke halaman pembelian atau lakukan aksi lain
-        Swal.fire(
-          'Terima Kasih!',
-          'Produk telah dibeli.',
-          'success'
-        );
-      }
-    });
+    if (!isLoggedIn) {
+      // Jika belum login, tampilkan peringatan
+      Swal.fire({
+        title: 'Anda belum login!',
+        text: 'Silakan login terlebih dahulu untuk membeli produk.',
+        icon: 'warning',
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+      return;
+    }
   };
-
+  
   return (
     <div className="home-container">
       {/* Navbar yang berubah sesuai status login */}

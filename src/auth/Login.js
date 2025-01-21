@@ -7,7 +7,7 @@ import axios from 'axios'; // Import axios
 import { API_LOGIN } from '../utils/BaseUrl';
 
 const Login = ({ handleLoginLogout }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();

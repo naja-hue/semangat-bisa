@@ -7,7 +7,7 @@ const Navbar = ({ isLoggedIn, handleLoginLogout }) => {
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo */}
-        <Link to="/" className="logo">FruitStore</Link>
+       <h1 className="logo">FruitStore</h1>
         
         <ul className="nav-links">
           {/* Link Home hanya muncul jika belum login */}
