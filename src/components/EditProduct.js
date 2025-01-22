@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import '../Css/EditProduct.css'; // Pastikan file CSS tersedia
-import axios from 'axios'; // Import Axios
+import '../Css/EditProduct.css';
+import axios from 'axios';
 import { API_PRODUCTS } from '../utils/BaseUrl';
 
+// Fungsi untuk mengupload gambar ke S3
 export const uploadImageToS3 = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -33,7 +34,7 @@ export const uploadImageToS3 = async (file) => {
 };
 
 const EditProduct = () => {
-  const { id } = useParams(); // Ambil id dari URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
@@ -41,13 +42,11 @@ const EditProduct = () => {
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null); // State untuk gambar
+  const [image, setImage] = useState(null);
 
-  // Mengambil idAdmin dari localStorage
   const adminData = JSON.parse(localStorage.getItem("adminData"));
   const idAdmin = adminData ? adminData.id : null;
 
-  // Ambil data produk berdasarkan id
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -71,46 +70,59 @@ const EditProduct = () => {
 
     const productDTO = {
       name,
-      price,
-      stock,
+      price: parseFloat(price),
+      stock: parseInt(stock, 10),
       description,
     };
 
     if (!idAdmin) {
-      alert('Admin ID tidak ditemukan!');
+      Swal.fire('Gagal!', 'Admin ID tidak ditemukan.', 'error');
       return;
     }
 
     try {
-      // Upload gambar jika ada file
       if (image) {
         const imageUrl = await uploadImageToS3(image);
-        productDTO.image = imageUrl; // Tambahkan URL gambar ke data produk
+        productDTO.imageURL = imageUrl;
       }
 
-      // Konfirmasi menggunakan SweetAlert2
       const result = await Swal.fire({
-        title: 'Apakah Anda yakin ingin memperbarui produk?',
-        text: 'Periksa kembali data produk yang akan diperbarui.',
+        title: 'Apakah Anda yakin?',
+        text: 'Periksa kembali data sebelum memperbarui.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Ya, Perbarui Produk!',
+        confirmButtonText: 'Ya, Perbarui!',
         cancelButtonText: 'Batal',
       });
 
       if (result.isConfirmed) {
-        await axios.put(`${API_PRODUCTS}/edit/${id}?idAdmin=${idAdmin}`, productDTO);
-        Swal.fire('Produk Diperbarui!', 'Produk berhasil diperbarui.', 'success');
-        navigate('/product-list/1'); // Navigasi setelah update
+        const formData = new FormData();
+        formData.append("product", JSON.stringify(productDTO));
+        if (image) {
+          formData.append("file", image);
+        }
+
+        const response = await axios.put(`${API_PRODUCTS}/edit/${id}?idAdmin=${idAdmin}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.status === 200) {
+          Swal.fire('Sukses!', 'Produk berhasil diperbarui.', 'success');
+          navigate('/product-list/1');
+        } else {
+          throw new Error('Respons tidak valid dari server.');
+        }
       }
     } catch (error) {
       console.error('Error updating product:', error);
-      Swal.fire('Gagal!', 'Terjadi kesalahan saat memperbarui produk.', 'error');
+      Swal.fire('Gagal!', error.response?.data?.message || 'Terjadi kesalahan.', 'error');
     }
   };
 
   if (!product) {
-    return <p>Loading...</p>; // Tampilkan loading jika data belum ada
+    return <p>Loading...</p>;
   }
 
   return (

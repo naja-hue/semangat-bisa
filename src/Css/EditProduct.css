@@ -1,69 +1,141 @@
+/* Global Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f1f1f1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container untuk Form Edit Produk */
 .edit-product-container {
-    background-color: #fff0f6; /* Pink pastel untuk background */
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 160px auto;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  max-width: 500px;
+  margin: 40px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #ff66b2;
+  margin-top: 16vh;
+}
+
+/* Judul Form */
+.edit-product-container h2 {
+  color: #e066b2;
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* Styling Form */
+.edit-product-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Setiap Input Field */
+.edit-product-container form div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+.edit-product-container form label {
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Input dan Textarea */
+.edit-product-container form input,
+.edit-product-container form textarea {
+  padding: 6px 10px;
+  border: 2px solid #e5c4d9;
+  border-radius: 8px;
+  background-color: #faf0f7;
+  color: #6d4c8b;
+  font-size: 13px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Gaya ketika Input atau Textarea fokus */
+.edit-product-container form input:focus,
+.edit-product-container form textarea:focus {
+  outline: none;
+  border-color: #ff66b2;
+  box-shadow: 0 0 6px rgba(255, 102, 178, 0.4);
+}
+
+/* Styling untuk Textarea */
+.textarea-input {
+  resize: none;
+  height: 80px;
+}
+
+/* Styling Tombol */
+.edit-product-container button {
+  background-color: #ff66b2;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  align-self: center;
+}
+
+/* Hover effect pada Tombol */
+.edit-product-container button:hover {
+  background-color: #d40075;
+  transform: translateY(-2px);
+}
+
+/* Efek klik pada tombol */
+.edit-product-container button:active {
+  transform: translateY(1px);
+}
+
+/* Style untuk input gambar */
+.edit-product-container form input[type="file"] {
+  padding: 5px 8px;
+  font-size: 12px;
+  border: 1px solid #e5c4d9;
+  border-radius: 8px;
+  background-color: #faf0f7;
+  color: #6d4c8b;
+  cursor: pointer;
+}
+
+/* Responsif: Untuk layar lebih kecil */
+@media (max-width: 768px) {
+  .edit-product-container {
+      padding: 18px;
+      margin: 30px auto;
   }
-  
+
   .edit-product-container h2 {
-    color: #d40075; 
-    text-align: center;
-    margin-bottom: 20px;
+      font-size: 20px;
   }
-  
+
   .edit-product-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+      gap: 8px;
   }
-  
-  .edit-product-container form div {
-    display: flex;
-    align-items: center;
-  }
-  
+
   .edit-product-container form label {
-    flex: 1;
-    color: #d40075; /* Warna pink cerah untuk label */
-    font-weight: bold;
+      font-size: 11px;
   }
-  
+
   .edit-product-container form input,
   .edit-product-container form textarea {
-    flex: 2;
-    padding: 10px;
-    border: 1px solid #f5a6c6; /* Border pink */
-    border-radius: 5px;
-    background-color: #fff0f6; /* Background input pink muda */
-    color: #d40075; /* Teks pink */
+      font-size: 12px;
   }
-  
-  .edit-product-container form input:focus,
-  .edit-product-container form textarea:focus {
-    outline: none;
-    border-color: #ff66b2; /* Border pink saat fokus */
-    box-shadow: 0 0 5px #ff99cc; /* Efek glow pink */
-  }
-  
-  .textarea-input {
-    resize: none; /* Nonaktifkan resize untuk textarea */
-    height: 100px; /* Tinggi default */
-  }
-  
+
   .edit-product-container button {
-    background-color: #ff66b2; /* Tombol pink cerah */
-    color: white;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+      padding: 6px 15px;
+      font-size: 13px;
   }
-  
-  .edit-product-container button:hover {
-    background-color: #d40075; /* Tombol pink gelap saat hover */
-  }
-  
+}

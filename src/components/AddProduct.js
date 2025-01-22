@@ -1,36 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 import "../Css/AddProduct.css";
 import { API_PRODUCTS } from "../utils/BaseUrl";
-
-export const uploadImageToS3 = async (file) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response = await fetch("https://s3.lynk2.co/api/s3/profile", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Gagal mengupload gambar ke S3");
-    }
-
-    const data = await response.json();
-    if (data.data && data.data.url_file) {
-      console.log("URL gambar berhasil didapat:", data.data.url_file);
-      return data.data.url_file;
-    } else {
-      throw new Error("URL gambar tidak tersedia dalam respons S3");
-    }
-  } catch (error) {
-    console.error("Error upload ke S3:", error);
-    throw error;
-  }
-};
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -38,7 +11,7 @@ const AddProduct = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
-  const [foto, setFoto] = useState(null); // State untuk gambar produk
+  const [foto, setFoto] = useState(null);
 
   const adminData = JSON.parse(localStorage.getItem("adminData"));
   const idAdmin = adminData ? adminData.id : null;
@@ -57,26 +30,29 @@ const AddProduct = () => {
     e.preventDefault();
 
     try {
-      let imageUrl = "";
+      const formData = new FormData();
 
-      // Upload gambar produk jika ada
+      // Tambahkan data produk ke FormData
+      const productData = JSON.stringify({
+        name,
+        price: parseFloat(price),
+        description,
+        stock,
+      });
+      formData.append("product", productData);
+
       if (foto) {
-        imageUrl = await uploadImageToS3(foto);
+        formData.append("file", foto);
       }
 
-      const productDTO = {
-        name: name,
-        price: parseFloat(price),
-        description: description,
-        stock: stock,
-        imageUrl: imageUrl, // URL gambar produk
-      };
-
-      const response = await axios.post(`${API_PRODUCTS}/add/${idAdmin}`, productDTO, {
+      // Kirim data ke backend
+      const response = await axios.post(`${API_PRODUCTS}/add/${idAdmin}`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
+
+      console.log("Respons dari server:", response);
 
       if (response.status === 201) {
         Swal.fire({
@@ -93,67 +69,85 @@ const AddProduct = () => {
 
           navigate("/product-list");
         });
+      } else {
+        throw new Error("Status respons tidak sesuai.");
       }
     } catch (error) {
       console.error("Error:", error);
-      Swal.fire({
-        title: "Gagal",
-        text: "Terjadi kesalahan saat menambahkan produk.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+
+      // Tampilkan SweetAlert jika terjadi kesalahan
+      if (error.response) {
+        Swal.fire({
+          title: "Gagal",
+          text: `Terjadi kesalahan: ${error.response.data.message || "Respons server tidak valid."}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Gagal",
+          text: "Tidak dapat terhubung ke server. Silakan coba lagi.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 
   return (
-    <div className="addProduct-container">
-      <h2>Tambah Produk Baru</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label>Nama</label>
+    <div className="add-product-container">
+      <h2 className="add-product-title">Tambah Produk Baru</h2>
+      <form onSubmit={handleSubmit} className="add-product-form">
+        <div className="add-product-input-group">
+          <label className="add-product-input-label">Nama</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="add-product-input-field"
             required
           />
         </div>
-        <div className="input-group">
-          <label>Harga Produk</label>
+        <div className="add-product-input-group">
+          <label className="add-product-input-label">Harga Produk</label>
           <input
             type="number"
             step="0.01"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            className="add-product-input-field"
             required
           />
         </div>
-        <div className="input-group">
-          <label>Deskripsi</label>
+        <div className="add-product-input-group">
+          <label className="add-product-input-label">Deskripsi</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            className="add-product-input-field"
             required
           />
         </div>
-        <div className="input-group">
-          <label>Stok</label>
+        <div className="add-product-input-group">
+          <label className="add-product-input-label">Stok</label>
           <input
             type="number"
             value={stock}
             onChange={(e) => setStock(Number(e.target.value))}
+            className="add-product-input-field"
             required
           />
         </div>
-        <div className="input-group">
-          <label>Gambar Produk</label>
+        <div className="add-product-input-group">
+          <label className="add-product-input-label">Gambar Produk</label>
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setFoto(e.target.files[0])} // Untuk gambar produk
+            onChange={(e) => setFoto(e.target.files[0])}
+            className="add-product-input-file"
           />
         </div>
-        <button type="submit" className="submit-btn">Tambah Produk</button>
+        <button type="submit" className="add-product-submit-btn">Tambah Produk</button>
       </form>
     </div>
   );

@@ -1,64 +1,141 @@
-.addProduct-container {
-  background-color: #fff0f6; /* Latar belakang dominan pink */
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 600px;
-  margin: 160px auto; /* Memberikan margin di atas dan bawah agar tidak tertutup navbar */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Global Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f1f1f1;
+  margin: 0;
+  padding: 0;
 }
 
-h2 {
-  color: #d81b60; /* Warna pink cerah */
+/* Container untuk Form Tambah Produk */
+.add-product-container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 450px;
+  margin: 40px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #ff66b2;
+  margin-top: 16vh;
+}
+
+/* Judul Form */
+.add-product-container h2 {
+  color: #e066b2;
   text-align: center;
-  margin-bottom: 20px;
+  font-size: 22px;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
-.input-group {
+/* Styling Form */
+.add-product-container form {
   display: flex;
-  align-items: center; /* Menyelaraskan label dan input secara horizontal */
-  margin-bottom: 15px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.input-group label {
-  font-size: 14px;
-  font-weight: bold;
-  color: #d81b60; /* Warna pink cerah */
-  margin-right: 15px; /* Memberikan jarak antara label dan input */
-  min-width: 150px; /* Menyediakan lebar tetap untuk label */
+/* Setiap Input Field */
+.add-product-container form div {
+  display: flex;
+  flex-direction: column;
 }
 
-.input-group input,
-.input-group textarea {
+/* Label */
+.add-product-container form label {
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Input dan Textarea */
+.add-product-container form input,
+.add-product-container form textarea {
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #d81b60; /* Border berwarna pink */
+  border: 2px solid #e5c4d9;
+  border-radius: 8px;
+  background-color: #faf0f7;
+  color: #6d4c8b;
   font-size: 14px;
-  width: 100%; /* Agar semua input memiliki lebar yang sama */
-  box-sizing: border-box; /* Memastikan padding dihitung dalam lebar input */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input-group input[type="number"] {
-  width: 100%; /* Menyesuaikan lebar input stok dengan input lainnya */
-  text-align: center; /* Menengahkan angka stok */
+/* Gaya ketika Input atau Textarea fokus */
+.add-product-container form input:focus,
+.add-product-container form textarea:focus {
+  outline: none;
+  border-color: #ff66b2;
+  box-shadow: 0 0 6px rgba(255, 102, 178, 0.4);
 }
 
-.input-group textarea {
-  resize: vertical;
-  min-height: 80px;
+/* Styling untuk Textarea */
+.textarea-input {
+  resize: none;
+  height: 80px;
 }
 
-.submit-btn {
-  background-color: #d81b60; /* Tombol dengan latar belakang pink */
+/* Styling Tombol */
+.add-product-container button {
+  background-color: #ff66b2;
   color: white;
-  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 30px;
   cursor: pointer;
-  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  align-self: center;
 }
 
-.submit-btn:hover {
-  background-color: #c2185b; /* Warna lebih gelap saat hover */
+/* Hover effect pada Tombol */
+.add-product-container button:hover {
+  background-color: #d40075;
+  transform: translateY(-2px);
+}
+
+/* Efek klik pada tombol */
+.add-product-container button:active {
+  transform: translateY(1px);
+}
+
+/* Style untuk input gambar */
+.add-product-container form input[type="file"] {
+  padding: 6px 10px;
+  font-size: 12px;
+  border: 1px solid #e5c4d9;
+  border-radius: 8px;
+  background-color: #faf0f7;
+  color: #6d4c8b;
+  cursor: pointer;
+}
+
+/* Responsif: Untuk layar lebih kecil */
+@media (max-width: 768px) {
+  .add-product-container {
+      padding: 20px;
+      margin: 30px auto;
+  }
+
+  .add-product-container h2 {
+      font-size: 20px;
+  }
+
+  .add-product-container form {
+      gap: 12px;
+  }
+
+  .add-product-container form label {
+      font-size: 11px;
+  }
+
+  .add-product-container form input,
+  .add-product-container form textarea {
+      font-size: 13px;
+  }
+
+  .add-product-container button {
+      padding: 6px 15px;
+      font-size: 13px;
+  }
 }

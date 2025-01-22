@@ -3,6 +3,7 @@ import axios from "axios";
 import "../Css/ProductList.css";
 import { Link } from "react-router-dom";
 import { API_PRODUCTS } from "../utils/BaseUrl";
+import Swal from "sweetalert2"; // Impor SweetAlert2
 
 const ProductList = ({ isLoggedIn }) => {
   const [products, setProducts] = useState([]);
@@ -34,13 +35,31 @@ const ProductList = ({ isLoggedIn }) => {
     }
   }, [idAdmin, isLoggedIn]);
 
-  const deleteProduct = async (productId) => {
-    try {
-      await axios.delete(`${API_PRODUCTS}/delete/${productId}`);
-      setProducts(products.filter((product) => product.id !== productId));
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
+  const deleteProduct = (productId) => {
+    // Menampilkan konfirmasi menggunakan SweetAlert
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Produk ini tidak dapat dikembalikan setelah dihapus!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Tidak, batalkan!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Melakukan penghapusan jika dikonfirmasi
+        axios.delete(`${API_PRODUCTS}/delete/${productId}`)
+          .then(() => {
+            setProducts(products.filter((product) => product.id !== productId));
+            Swal.fire("Dihapus!", "Produk telah dihapus.", "success");
+          })
+          .catch((error) => {
+            console.error("Error deleting product:", error);
+            Swal.fire("Error!", "Terjadi masalah saat menghapus produk.", "error");
+          });
+      } else {
+        Swal.fire("Dibatalkan", "Produk tidak jadi dihapus.", "info");
+      }
+    });
   };
 
   return (
@@ -64,7 +83,7 @@ const ProductList = ({ isLoggedIn }) => {
               <td>{index + 1}</td>
               <td>
                 {product.imageURL ? (
-                  <img src={product.imageURL} alt={product.name} style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+                  <img src={product.imageURL} alt={product.name} style={{ width: '190px', height: '160px', objectFit: 'cover' }} />
                 ) : (
                   <span>Tidak Ada Foto</span>
                 )}

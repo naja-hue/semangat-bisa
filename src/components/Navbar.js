@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // Import NavLink
 import '../Css/Navbar.css'; // Pastikan file CSS diimpor
 
 const Navbar = ({ isLoggedIn, handleLoginLogout }) => {
@@ -7,13 +7,15 @@ const Navbar = ({ isLoggedIn, handleLoginLogout }) => {
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo */}
-       <h1 className="logo">FruitStore</h1>
+        <h1 className="logo">FruitStore</h1>
         
         <ul className="nav-links">
           {/* Link Home hanya muncul jika belum login */}
           {!isLoggedIn && (
             <li>
-              <Link to="/">Home</Link>
+              <NavLink to="/" exact activeclassname="active">
+                Home
+              </NavLink>
             </li>
           )}
           
@@ -21,15 +23,19 @@ const Navbar = ({ isLoggedIn, handleLoginLogout }) => {
           {isLoggedIn ? (
             <>
               <li>
-                <Link to="/product-list">Produk</Link>
+                <NavLink to="/product-list" activeclassname="active">
+                  Produk
+                </NavLink>
               </li>
               <li>
-                <button onClick={handleLoginLogout}>Logout</button>
+                <button className="logout-btn" onClick={handleLoginLogout}>Logout</button>
               </li>
             </>
           ) : (
             <li>
-              <Link to="/login" className="login-btn">Login</Link>
+              <NavLink to="/login" className="login-btn" activeclassname="active">
+                Login
+              </NavLink>
             </li>
           )}
         </ul>
